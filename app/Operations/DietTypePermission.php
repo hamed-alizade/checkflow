@@ -4,9 +4,9 @@ namespace App\Operations;
 
 use App\Services\Operation;
 
-class DietTypePermission implements Operation
+class DietTypePermission extends Operation
 {
-    public function getNextStateName(array $arguments): string
+    public function getNextStateName(): string
     {
 //        return '/diet/type';
         return '';

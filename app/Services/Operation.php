@@ -2,7 +2,18 @@
 
 namespace App\Services;
 
-interface Operation
+abstract class Operation
 {
-    public function getNextStateName(array $arguments) : string;
+    protected $arguments=[];
+    public function setArguments(array $arguments)
+    {
+        $this->arguments = $arguments;
+    }
+
+    public function getArguments() : array
+    {
+        return $this->arguments;
+    }
+
+    abstract public function getNextStateName() : string;
 }
