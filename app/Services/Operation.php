@@ -4,5 +4,5 @@ namespace App\Services;
 
 interface Operation
 {
-    public function getNextStateName() : string;
+    public function getNextStateName(array $arguments) : string;
 }
