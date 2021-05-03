@@ -2,8 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Operations\CheckCardPaymentStatus;
 use App\Operations\DietTypePermission;
+use App\Operations\EndPaymentProcess;
 use App\Operations\SicknessStatus;
+use App\Operations\StartPayment;
 use App\Services\Flow;
 use App\Services\Operation;
 use App\Services\State;
@@ -21,15 +24,35 @@ class flowController extends Controller
         $package = new State('package');
         $dietTypePermission = new DietTypePermission();
         $sicknessStatus = new SicknessStatus();
-
+        $startPayment = new StartPayment();
         $package->setOperation($dietTypePermission);
         $package->setOperation($sicknessStatus);
+        $package->setOperation($startPayment);
+
+        $payment = new Flow('payment');
+        $bill = new State('bill');
+        $card = new State('card');
+        $cardWait = new State('card/wait');
+        $cardConfirm = new State('card/confirm');
+        $cardReject = new State('card/reject');
+        $checkCardPaymentStatus = new CheckCardPaymentStatus();
+        $endPaymentProcess = new EndPaymentProcess();
+        $cardWait->setOperation($checkCardPaymentStatus);
+        $cardConfirm->setOperation($endPaymentProcess);
+        $cardReject->setOperation($endPaymentProcess);
+
+        $payment->addState($bill);
+        $payment->addState($card);
+        $payment->addState($cardWait);
+        $payment->addState($cardConfirm);
+        $payment->addState($cardReject);
 
         $reg->addState($dietType);
         $reg->addState($size);
         $reg->addState($report);
         $reg->addState($sickSelect);
         $reg->addState($package);
+        $reg->addAccessory($payment);
 
         return $reg->getNextState($request['flow']);
     }
