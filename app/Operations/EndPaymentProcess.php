@@ -7,6 +7,7 @@ class EndPaymentProcess extends Operation
 {
     public function getNextStateName(): string
     {
-        return '/activity';
+//        return '/activity';
+        return '';
     }
 }

@@ -19,10 +19,9 @@ class Flow
         return $this->name;
     }
 
-    public function addState(State $state, $prefix='')
+    public function addState(State $state)
     {
-        if ($prefix ) { $prefix .= '/'; }
-        $this->flow[$prefix . $state->getName()] = $state;
+        $this->flow[$state->getName()] = $state;
     }
 
     public function getFlow(): array
@@ -32,8 +31,9 @@ class Flow
 
     public function addAccessory(Flow $accessory)
     {
-        foreach($accessory->getFlow() as $state) {
-            $this->addState($state,$accessory->getName());
+        $prefix = $accessory->getName();
+        foreach($accessory->getFlow() as $key=>$state) {
+            $this->flow[$prefix . '/' . $key] = $state;
         }
     }
 
@@ -41,7 +41,7 @@ class Flow
     {
         $flowKey = array_keys($this->flow);
         $currentStateKey = array_search($currentStateName, $flowKey);
-        if($currentStateKey < 0) { abort(404); }
+        if($currentStateKey < 0 or $currentStateKey == false) { abort(404); }
         $currentState = $this->flow[$currentStateName];
         $next = $currentState->getNext();
         if( ! $next) { $next = '/' . $flowKey[$currentStateKey + 1]; }

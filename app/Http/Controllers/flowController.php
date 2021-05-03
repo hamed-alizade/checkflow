@@ -52,8 +52,18 @@ class flowController extends Controller
         $reg->addState($report);
         $reg->addState($sickSelect);
         $reg->addState($package);
+
+        $test=new Flow('test');
+        $type = new State('test_type');
+        $type2 = new State('test_type2');
+        $test->addState($type);
+        $test->addState($type2);
+        
+        $payment->addAccessory($test);
+
         $reg->addAccessory($payment);
 
+//        dd($reg->getFlow());
         return $reg->getNextState($request['flow']);
     }
 }
