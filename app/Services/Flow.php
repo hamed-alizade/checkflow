@@ -44,7 +44,14 @@ class Flow
         if($currentStateKey < 0 or $currentStateKey == false) { abort(404); }
         $currentState = $this->flow[$currentStateName];
         $next = $currentState->getNext();
-        if( ! $next) { $next = '/' . $flowKey[$currentStateKey + 1]; }
+        if( ! $next) {
+            if (isset($flowKey[$currentStateKey + 1])) {
+                $next = '/' . $flowKey[$currentStateKey + 1];
+            }
+            else{
+                $next = $currentStateName;
+            }
+        }
         return $next;
     }
 }
