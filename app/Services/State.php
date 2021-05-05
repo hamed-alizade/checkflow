@@ -35,4 +35,9 @@ class State
         }
         return $next;
     }
+
+    public function getOperations() : array
+    {
+        return $this->operations;
+    }
 }
