@@ -66,5 +66,8 @@ class Controller extends BaseController
         $payment->addAccessory($test);
 
         $this->reg->addAccessory($payment);
+
+        $flowArray=['weight','postal'];
+        $this->reg->addArrayAsFlow($flowArray, $size);
     }
 }
