@@ -52,6 +52,7 @@ class Flow
         $currentState = $this->flow[$currentStateName];
         $next = $currentState->getNext();
         if( ! $next) {
+            $flowKey = array_keys($this->flow);
             if (isset($flowKey[$currentStateKey + 1])) {
                 $next = '/' . $flowKey[$currentStateKey + 1];
             }
