@@ -60,6 +60,31 @@ class Flow
         }
     }
 
+    public function addArrayAsFlow(array $flow, State $after = null)
+    {
+        $tempFlow=[];
+        foreach ($flow as $state) {
+            $tempFlow[$state] = new State($state);
+        }
+
+        if($after) {
+            $afterOrder = $this->isExist($after->getName());
+            if ($afterOrder >= 0) {
+                $firstSlice = array_slice($this->flow, 0, $afterOrder + 1);
+                $secondSlice = array_slice($this->flow, $afterOrder + 1, count($this->flow));
+                $this->flow = $firstSlice;
+                $this->flow = array_merge($this->flow, $tempFlow);
+                $this->flow = array_merge($this->flow, $secondSlice);
+            }
+            else {
+                $this->flow = array_merge($this->flow, $tempFlow);
+            }
+        }
+        else {
+            $this->flow = array_merge($this->flow, $tempFlow);
+        }
+    }
+
     private function isExist(string $stateName) : int
     {
         $flowKey = array_keys($this->flow);
