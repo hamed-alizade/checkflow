@@ -67,7 +67,9 @@ class Controller extends BaseController
 
         $this->reg->addAccessory($payment);
 
-        $flowArray=['weight','postal'];
+        $flowArray=['weight', 'postal', '%validatePostalCode'];
         $this->reg->addArrayAsFlow($flowArray, $size);
+
+//        dd($this->reg->getState('weight'));
     }
 }

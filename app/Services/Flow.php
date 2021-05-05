@@ -52,6 +52,16 @@ class Flow
         return $this->flow;
     }
 
+    public function getState(string $stateName) : ? State
+    {
+        foreach($this->flow as $state) {
+            if ($state->getName() == $stateName) {
+                return $state;
+            }
+        }
+        return null;
+    }
+
     public function addAccessory(Flow $accessory)
     {
         $prefix = $accessory->getName();
