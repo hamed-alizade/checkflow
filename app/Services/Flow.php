@@ -37,11 +37,18 @@ class Flow
         }
     }
 
-    public function getNextState(string $currentStateName): string
+    private function getStateKey(string $stateName)
     {
         $flowKey = array_keys($this->flow);
-        $currentStateKey = array_search($currentStateName, $flowKey);
-        if($currentStateKey < 0 or $currentStateKey == false) { abort(404); }
+        $stateKey = array_search($stateName, $flowKey);
+        if($stateKey < 0 or $stateKey == false) { return -1; }
+        return $stateKey;
+    }
+
+    public function getNextState(string $currentStateName): string
+    {
+        $currentStateKey = $this->getStateKey($currentStateName);
+        if($currentStateKey < 0) { abort(404); }
         $currentState = $this->flow[$currentStateName];
         $next = $currentState->getNext();
         if( ! $next) {
