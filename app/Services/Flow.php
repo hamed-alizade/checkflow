@@ -57,7 +57,7 @@ class Flow
                 $next = '/' . $flowKey[$currentStateKey + 1];
             }
             else{
-                $next = $currentStateName;
+                $next = '/' . $currentStateName;
             }
         }
         return $next;
